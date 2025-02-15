@@ -1,0 +1,84 @@
+class ChemicalSolution: #сюда записываем для каждого раствора его концентрацию и процент чистоты
+    concentration = None
+    purity = None
+
+    def __init__(self, concentration, purity):
+        self.concentration = concentration
+        self.purity = purity
+
+    def update_concentration(self, new_concentration):
+        self.concentration = new_concentration
+
+    def update_purity(self, new_purity):
+        self.purity = new_purity
+
+class Batch: #этот класс хранит в себе инфу про то вещество, которое обрабатывается
+    cyanide = ''
+    iron = ''
+    filter = ''
+    def __init__(self, batch, cyanide, iron, filter):
+        self.batch = batch
+        self.cyanide_solution = cyanide
+        self.iron_solution = iron
+        self.filter = filter
+
+class ZiF:
+    batch = None
+    def __init__(self, batch, next_step=None):
+        self.batch = batch
+        self.next_step = next_step
+
+    def input(self, batch):
+      pass
+
+    def output(self, batch):
+      pass #тут нужно подвязать все данные которые мы сохранили после обработки этого метала. Типо списка из концентраций и всего остального
+
+class Crasher_step(ZiF): #этот класс отвечает за дробление
+    batch = ''
+    def __init__(self, batch, next_step=None):
+        super().__init__(batch, next_step)
+    def crasher(self, batch):
+      pass 
+
+class Cyanid_step(ZiF):
+    cyanide = ''
+    iron = ''
+    def __init__(self, cyanide, iron, next_step = None): #берем данные о растворах из класса вещества
+        self.cyanide = cyanide
+        self.iron = iron
+        super().__init__(batch, next_step)
+
+    def process(self, cyanide, iron): 
+        pass 
+
+    def new_concentration_cyanide(self, cyanide):
+      pass #это значение будет аргументом для класса с раствором
+
+    def new_purity_cyanide(self, cyanide):
+      pass 
+      
+    def new_concentration_iron(self, iron):
+      pass 
+
+    def new_purity_iron(self, iron):
+      pass 
+
+class Filter_step(ZiF):
+    filter_type = ''
+    filter_firm = ''
+    wear_level = 0
+
+    def __init__(self, filter_type, filter_firm, wear_level, next_step = None):
+        self.filter_type = filter_type
+        self.filter_firm = filter_firm
+        self.wear_level = wear_level #вдруг нам поставили поношенный фильтр. Вообще объект фильтра можно записать в отдельный класс и все эти штуки ему в атрибуты
+        super().__init__(batch, next_step)
+
+    def update_wear(self, wear): #это пример реализации функции изнашивания фильтра (вбиваем изнашивание вручную)
+        self.wear_level = wear
+        if self.wear_level >= 80:
+            self.replace_filter()
+
+    def replace_filter(self):
+        pass
